@@ -20,14 +20,6 @@ def creds_entered():
     return
     
 def authenticate_user():
-
-    ###
-    # This function first checks if the session state contains an authenticated variable. 
-    # If not, it creates text input fields for the user to enter their username and password. 
-    # The on_change parameter is set to the creds_entered() function, so that whenever the user types into the fields, the creds_entered() function is called.
-    # If the session state does contain an authenticated variable, the function checks its value. 
-    # If it's True, the function returns True, indicating that the user is authenticated. Otherwise, it creates text input fields for the user to enter their username and password again (in case they entered them incorrectly), and then returns False.
-    ###
     
     if "authenticated" not in st.session_state:
         st.text_input(label="Username :", value="", key="user", on_change=creds_entered)
