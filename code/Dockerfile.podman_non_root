@@ -1,0 +1,41 @@
+##############################
+#           BUILD
+##############################
+FROM python:3.12-slim
+
+WORKDIR /app
+
+RUN apt-get update --fix-missing 
+RUN apt-get install -y --fix-missing build-essential
+RUN apt-get install -y sudo
+RUN apt-get install -y bash
+RUN apt-get install -y curl 
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN mkdir modules
+RUN mkdir app_imgs
+
+COPY ./requirements.txt .
+
+RUN pip3 install --no-cache-dir -r requirements.txt
+#COPY config.toml ./.streamlit_backup
+#COPY secrets.toml ./.streamlit_backup
+COPY app.py .
+COPY modules/load_config.py ./modules
+COPY modules/watsonx.py ./modules
+COPY modules/simple_auth.py ./modules
+COPY app_imgs/chat_image.png ./app_imgs
+COPY generate_envconfig.sh .
+COPY docker_entrypoint_non_root.sh .
+
+# set user rights to allow the streamlit user and group
+RUN groupadd --gid 2001 streamlit_group
+RUN useradd --uid 1001 --gid 2001 -m streamlit_user
+RUN echo streamlit_user ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/streamlit_user
+RUN chmod 7777 /etc/sudoers.d/streamlit_user
+
+RUN chown -R streamlit_user:streamlit_group .
+USER streamlit_user
+
+EXPOSE 8080 
+CMD ["/bin/sh", "docker_entrypoint_non_root.sh"]
