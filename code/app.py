@@ -48,14 +48,14 @@ def model_select_box():
      
      label = "Select an available model in watsonx.ai for the Chat."
      options = ['mistralai/mistral-large']
-     model_id = st.selectbox(label, options, index=1, key=None, help=None, on_change=None, args=None, kwargs=None, placeholder="Choose an option", disabled=False, label_visibility="visible")
+     model_id = st.selectbox(label, options, index=0, key=None, help=None, on_change=None, args=None, kwargs=None, placeholder="Choose an option", disabled=False, label_visibility="visible")
      return model_id 
 
 def chat_type_select_box():
      
      label = "Select how you want to interact with the model in the Chat."
      options = ['streaming', 'non-streaming']
-     chat_type = st.selectbox(label, options, index=1, key=None, help=None, on_change=None, args=None, kwargs=None, placeholder="Choose an option", disabled=False, label_visibility="visible")
+     chat_type = st.selectbox(label, options, index=0, key=None, help=None, on_change=None, args=None, kwargs=None, placeholder="Choose an option", disabled=False, label_visibility="visible")
      return chat_type 
 
 def execution():
